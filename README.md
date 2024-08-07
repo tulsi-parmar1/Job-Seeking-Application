@@ -1,8 +1,20 @@
-# React + Vite
+#HireHub
+HireHub is a robust job-seeking platform developed with the MERN stack (MongoDB, Express.js, React, Node.js). It enables job seekers to find and manage job opportunities efficiently, with various features designed to enhance the job search experience.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+User Authentication:
 
-Currently, two official plugins are available:
+Login/Logout: Secure login and logout functionality.
+Signup: Register new users with email verification.
+Job Management:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Post Jobs: Employers can post new job listings with details such as job title, description, requirements, and location.
+View Jobs: Job seekers can browse and view available job listings.
+Apply for Jobs: Apply to job listings with a personalized cover letter and resume upload.
+Save Jobs: Save job listings for future reference.
+Filter Jobs: Search and filter jobs by location, industry, job type, and more.
+Profile Management:
+
+Create and Edit Profile: Job seekers can build and update their professional profiles with personal information, resumes, and job preferences.
+
+Mobile-Friendly: Access the platform from any device with a responsive and user-friendly interface.
