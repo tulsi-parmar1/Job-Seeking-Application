@@ -1,0 +1,66 @@
+.card ul{
+    display: flex;
+    align-items: center;
+    gap:20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+}
+.card ul li{
+    border: 1px solid gray;
+    padding:20px;
+    border-radius: 9px;
+    margin-bottom: 10px;
+    height:170px;
+    width:280px;
+    text-align: center;
+
+}
+
+.categories h1{
+    margin:50px;
+    text-align: center;
+}
+.categories{
+    min-height: 400px;
+    padding-bottom:50px;
+    background-color: white;
+}
+.btn{
+    background-color: #088395;
+    height:40px;
+    border: none;
+    border-radius: 8px;
+    padding-bottom: 9px;
+    color:white;
+    width:140px;
+    margin-top: 20px;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+.btn:hover{
+    cursor: pointer;
+    background-color: #078ea3;
+}
+span{
+    margin-top: 40px;
+}
+.arrow{
+
+    font-size: 19px;
+    margin-left: 10px;
+    transition: 0.3s ease-in-out;
+}
+.card ul li:hover .arrow{
+    /* transform: scaleX(1); */
+    transform: translateX(10px);
+}
+.card ul li:hover{
+    background-color: #acc8cc;
+}
+@media screen and (max-width:464px)
+{
+    .categories h1{
+        font-size: 23px;
+    }
+}
