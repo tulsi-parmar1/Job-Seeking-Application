@@ -16,13 +16,14 @@ function MyJobs() {
         const fetchjobs = async () => {
             try {
                 const { data } = await axios.get("http://localhost:4000/api/job/getMyJobs", { withCredentials: true });
-                setMyJobs(data);
+                setMyJobs(data.myjob);   
             } catch (error) {
                 toast.error(error.response.data.message);
             }
         }
         fetchjobs();
     }, []);
+    // console.log(myJobs[3].logo.url);
     return (
         <>
             <div className="jobs page">
@@ -36,6 +37,9 @@ function MyJobs() {
                                     <p>{elemnt.title}</p>
                                     <p>{elemnt.company}</p>
                                     <p>{elemnt.location}</p>
+                                    {elemnt.logo && (
+                                <img src={elemnt.logo.url} alt={`${elemnt.title} logo`} height='300px' />
+                            )}
                                     <Link to={`/job/myJobDetail/${elemnt._id}`}>job details</Link>
                                     <Link to={`/job/update/${elemnt._id}`}>update job</Link>
                                     <Link to={`/job/delete/${elemnt._id}`}>delete job</Link>

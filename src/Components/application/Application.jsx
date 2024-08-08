@@ -56,7 +56,7 @@ function Application(){
            } else {
                toast.error(error.response.data.message);
            }
-            alert(error.response.data.message);
+           
         }
     }
     return (

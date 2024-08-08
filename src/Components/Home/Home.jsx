@@ -24,7 +24,7 @@ function Home(){
             {/* <HowItWorks></HowItWorks> */}
             <JobType></JobType>
             <LatestJob></LatestJob>
-            <PopularCompany></PopularCompany>
+            {/* <PopularCompany></PopularCompany> */}
         </>
     )
 }

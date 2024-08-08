@@ -17,8 +17,6 @@ function PopularCategory() {
                 console.error('Error fetching job counts by category:', error);
             });
     }, []);
-
-
     return (
         <>
             <div className={style.categories}>
@@ -27,19 +25,15 @@ function PopularCategory() {
                     {
                        <div>
                        <ul>
-                        {/* ask chatGpt for explaination */}
                            {Object.entries(details).map(([category, count]) => (
 
                                    <li key={category}>
-                                       {count} <br /><br /> <span style={{marginTop:'20px'}}> {category}</span><br/>
+                                      <span style={{color:'#078ea3'}}>{category}</span>  <br /><br /> <span style={{marginTop:'20px'}}> ({count} open positions)</span><br/>
                                       <a href={`jobsByCount/:${category}`}> <button className={style.btn}>View Jobs <span></span><FaArrowRightLong className={style.arrow}/></button></a>
                                    </li>
-
                            ))}
-                        
                        </ul>
                    </div>
-    
                     }
                 </div> 
             </div>

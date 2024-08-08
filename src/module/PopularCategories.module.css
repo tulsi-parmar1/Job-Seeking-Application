@@ -1,9 +1,10 @@
 .card ul{
     display: flex;
     align-items: center;
-    gap:20px;
-    justify-content: space-around;
+    justify-content: center;
+    gap:80px;
     flex-wrap: wrap;
+    margin: 0px 50px;
 
 }
 .card ul li{
@@ -11,12 +12,10 @@
     padding:20px;
     border-radius: 9px;
     margin-bottom: 10px;
-    height:170px;
+    min-height:170px;
     width:280px;
     text-align: center;
-
 }
-
 .categories h1{
     margin:50px;
     text-align: center;

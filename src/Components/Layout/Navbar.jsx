@@ -60,7 +60,7 @@ function NavBar() {
     }
     return (
         <>
-              <nav className={`${style.navbar} ${scrolling ? style.onscroll : ''}`}>
+              <nav className={`${style.navbar} ${scrolling ? style.onscroll : ''} ${!isAuthorized &&  style.noneNavbar}` }>
                 <div className={style.logo}>
                     {/* <img src="logo2.png" alt=""  /> */}
                     <h1>HIREhub</h1>
@@ -74,11 +74,16 @@ function NavBar() {
                                 isActive ? style.active : ""
                             }>Home</NavLink>
                         </li>
-                        {/* <li>
+                        <li>
                             <NavLink to='/logout' className={({ isActive }) =>
                                 isActive ? style.active : ""
                             }>logout</NavLink>
-                        </li> */}
+                        </li>
+                        <li>
+                            <NavLink to='/job/me' className={({ isActive }) =>
+                                isActive ? style.active : ""
+                            }>myjobs</NavLink>
+                        </li>
                         <li>
                             <NavLink to='/job/getall' className={({ isActive }) =>
                                 isActive ? style.active : ""

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,30 +19,39 @@ function PostJob() {
   const [contactEmail, setContactEmail] = useState("");
   const [deadline, setDeadline] = useState("");
   const [categories, setCategories] = useState('');
+  const [logo,setLogo]=useState(null);
   const { isAuthorized } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
   const handleJobPost = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('categories', categories);
+    formData.append('company', company);
+    formData.append('location', location);
+    formData.append('employmentType', employmentType);
+    formData.append('salaryRangeMin', salaryMin);
+    formData.append('salaryRangeMax', salaryMax);
+    formData.append('requirements', requirements);
+    formData.append('responsibilities', responsibilities);
+    formData.append('deadline', deadline);
+    formData.append('contactEmail', contactEmail);
+    if (logo) {
+      formData.append('logo', logo);
+    }
+
+  
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/job/postJob",
-        {
-          title,
-          description,
-          categories,
-          company,
-          location,
-          employmentType,
-          salaryRange: { min: salaryMin, max: salaryMax },
-          requirements: requirements.split(",").map((req) => req.trim()),
-          responsibilities: responsibilities.split(",").map((res) => res.trim()),
-          deadline,
-          contactEmail,
-        },
+        formData,
         {
           withCredentials: true,
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
         }
       );
       toast.success(data.message);
@@ -54,14 +63,18 @@ function PostJob() {
     }
   };
 
+const handlefilechange=(e)=>{
+ const logo2= e.target.files[0];
+ setLogo(logo2);
 
+}
   if (!isAuthorized) {
     navigate("/login");
     return null; // Ensure the component doesn't render before navigation
   }
 
   return (
-    <div className="job_post page">
+    <div className="job_post page" style={{marginTop:'200px'}}>
       <div className="container">
         <h3>Post new Job</h3>
         <form onSubmit={handleJobPost}>
@@ -167,6 +180,9 @@ function PostJob() {
           </div>
           <div className="wrapper">
             <input type="checkbox" checked={deadline} onChange={(e) => setDeadline(e.target.checked)} />
+          </div>
+          <div className="logo">
+            <input type="file" name="logo" onChange={handlefilechange}/>
           </div>
           <button type="submit">Create Job</button>
         </form>

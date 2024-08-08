@@ -2,7 +2,6 @@
 {
     height: 50px;
     width:240px;
-
 }
 .icon1
 {
@@ -12,7 +11,8 @@
 {
     display: none;
 }
- .navbar{
+.navbar{
+
     position: fixed;
     width:100%;
     top:10px;
@@ -134,4 +134,7 @@
     .menuopen li:hover{
         color:#088395;
     }
+}
+.noneNavbar{
+    display: none;
 }
