@@ -1,0 +1,84 @@
+
+.footer
+{
+    display: flex;
+    align-items: center;
+    background-color: rgba(46, 44, 44, 0.1);
+    margin-top: 100px;
+    position: static;
+    padding-bottom: 30px;
+    position: sticky;
+     bottom: 0;
+}
+.one{
+    height:300px;
+    width:1400px;
+    padding: 70px 80px;
+}
+.one p{
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+.two{
+    width:500px;
+    margin-right: 30px;
+}
+
+.two .link a
+{
+   
+       color:black;
+       text-decoration: none;
+        font-size: 18px;
+      
+}
+.two .link div{
+    margin-top: 20px;
+}
+.three{
+    width:500px;
+}
+
+.three .link2 a
+{
+   
+       color:black;
+       text-decoration: none;
+        font-size: 18px;
+      
+}
+.three .link2 div{
+    margin-top :20px;
+}
+.four
+{
+    width:500px;
+    margin-left: 10px;
+    margin-top: -100px;
+}
+.five{
+       width:400px;
+}
+.four .icon{
+    margin-top: 20px;
+}
+.four i{
+    font-size: 22px;
+}
+.five{
+    margin-top: 50px;
+}
+.stick
+{
+    position: sticky;
+    top:0px;
+    background-color: white;
+    z-index: 1;
+}
+.hi button a{
+    color:white;
+    text-decoration: none;
+}
+.footer{
+    background-color: transparent;
+}

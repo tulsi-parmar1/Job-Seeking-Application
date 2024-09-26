@@ -1,0 +1,82 @@
+
+.container form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:20px 200px;
+    gap:10px;
+
+}
+.applicants img{
+    height: 160px;
+    width:160px;
+    object-fit: cover;
+}
+.application h3{
+    text-align: center;
+    color:#088295
+}
+.container form input{
+    height: 40px;
+    padding:10px;
+    border-radius: 10px;
+    border:none;
+    border:1px solid gray;
+    &:hover{
+        border:2px solid #088395;
+    }
+}
+.container button{
+    background-color: #088295;
+    height: 30px;
+    color:white;
+    border:none;
+    width: 300px;
+    margin-top: 20px;
+    &:hover{
+        cursor: pointer;
+    }
+}
+@media screen and (max-width:900px)
+{
+    .container form{
+        padding: 30px;
+    }
+}
+.applicants{
+    margin-top: 200px;
+}
+.applicants ul{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:80px;
+}
+.applicants ul li  {
+    background-color: white;
+    padding:40px;
+    border-radius: 10px;
+}
+.btn{
+    border: 1px solid rgba(128, 128, 128, 0.477);
+    width:40px;
+    border-radius: 10px;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.popup{
+    position: absolute;
+ 
+  
+    height: 800px;
+    left:180px;
+}
+.appli{
+    /* position: relative; */
+    backdrop-filter: blur(10px);
+    /* margin-top: 200px; */
+    height: 100vh;
+    
+
+}

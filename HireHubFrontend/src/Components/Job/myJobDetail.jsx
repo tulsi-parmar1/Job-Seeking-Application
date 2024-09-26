@@ -1,0 +1,31 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import JobDetailSub from "./JobDetailSub";
+function MyJobDetail() {
+    const { isAuthorized } = useSelector(state => state.user);
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [length,setlength]=useState(0);
+    const [job, setJob] = useState({}); 
+    useEffect(() => {
+        if (!isAuthorized) {
+            return navigate('/login')
+        }
+        axios.get(`http://localhost:4000/api/job/${id}`, { withCredentials: true }).then((res) => {
+            setJob(res.data.job);
+            setlength(res.data.applicantsLength);
+        }).catch((err) => {
+            toast.error(err.response.data.message);
+        })
+    }, [])
+    return (
+        <>
+            <JobDetailSub job={job}> applicants={length} id={id}</JobDetailSub>
+        </>
+    )
+}
+export default MyJobDetail;
