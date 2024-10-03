@@ -21,6 +21,7 @@ app.use(
     credentials: true, // Allow credentials
   })
 );
+// app.use("/uploads", express.static("pdfuploads"));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -44,6 +45,7 @@ app.use("/api/application", applicationRouter);
 app.use("/api/job", jobRouter);
 app.use("/api/profile", router);
 dbConnection();
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.API_KEY,

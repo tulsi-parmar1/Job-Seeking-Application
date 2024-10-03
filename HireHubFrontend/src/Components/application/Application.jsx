@@ -1,86 +1,151 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import style from "../../module/Application.module.css";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
-function Application(){
-    const {isAuthorized}=useSelector(state=>state.user);
-    const [firstName,setFirstName]=useState("");
-    const [lastName,setLastName]=useState("");
-    const [email,setEmail]=useState("");
-    const [contactNumber,setContactNumber]=useState("");
-    const [currentCity,setCurrentCity]=useState("");
-    const [coverLetter,setCoverLetter]=useState("");
-    const [resume,setResume]=useState(null);
-    const navigate=useNavigate();
-    const {id}=useParams();
-    if(!isAuthorized)
-    {
-        navigate('/');
-    }
-    const handlefilechange=(e)=>{
-        const resume=e.target.files[0];
-        setResume(resume);
-    }
-    const handleApplication=async(e)=>{
-        e.preventDefault();
-        const formData=new FormData();
-        formData.append('firstName',firstName);
-        formData.append('lastName',lastName);
-        formData.append('contactNumber',contactNumber);
-        formData.append('currentCity',currentCity);
-        formData.append('email',email);
-        formData.append('coverLetter',coverLetter);
-        formData.append('resume',resume);
-        formData.append('job',id);
-        try {
-            const {data}= await axios.post('http://localhost:4000/api/application/postApplication',formData,{withCredentials:true,headers:{
-                "Content-Type":'multipart/form-data'
-            }});
-            setFirstName('');
-            setLastName('');
-            setContactNumber('');
-            setCurrentCity('');
-            setEmail('');
-            setCoverLetter('');
-            setResume('');
-            alert(data.message);
-            navigate('/job/me');
-        } catch (error) {
+function Application() {
+  const { isAuthorized } = useSelector((state) => state.user);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [currentCity, setCurrentCity] = useState("");
+  const [coverLetter, setCoverLetter] = useState("");
+  const [resume, setResume] = useState(null);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-            if (error.response.status === 400 && error.response.data.errors) {
-                // Show validation errors
-               toast.error(error.response.data.errors.join('\n'));
-           } else {
-               toast.error(error.response.data.message);
-           }
-           
+  useEffect(() => {
+    if (!isAuthorized) {
+      navigate("/");
+    }
+  }, [isAuthorized]);
+
+  const handleFileChange = (event) => {
+    const resumeFile = event.target.files[0];
+    if (resumeFile && resumeFile.type === "application/pdf") {
+      setResume(resumeFile);
+    } else {
+      toast.error("Only PDF files are accepted for resume.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData();
+    formdata.append("firstName", firstName);
+    formdata.append("lastName", lastName);
+    formdata.append("email", email);
+    formdata.append("contactNumber", contactNumber);
+    formdata.append("currentCity", currentCity);
+    formdata.append("coverLetter", coverLetter);
+    formdata.append("resume", resume); // Ensure resume file is being appended correctly
+    try {
+      const { data } = await axios.post(
+        `http://localhost:4000/api/application/postApplication/${id}`,
+        formdata,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
+      );
+      setFirstName("");
+      setLastName("");
+      setContactNumber("");
+      setCurrentCity("");
+      setEmail("");
+      setCoverLetter("");
+      setResume(null); // Reset resume to null
+      toast.success(data.message);
+    } catch (error) {
+      console.log("error", error.message);
     }
-    return (
-        <>
-        <section className={style.application} style={{marginTop:'200px'}}>
+  };
+  return (
+    <>
+      <section className={style.application} style={{ marginTop: "200px" }}>
         <div className={style.container}>
-            <h3>Application Form</h3>
-            <form onSubmit={handleApplication}>
-                <input type="text" placeholder="your first  name"  value={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
-                <input type="text" placeholder="your last name"  value={lastName} onChange={(e)=>setLastName(e.target.value)}/>
-                <input type="number" placeholder="your contact Number"  value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)}/>
-                <input type="text" placeholder="your currentCity "  value={currentCity} onChange={(e)=>setCurrentCity(e.target.value)}/>
-                <input type="email" placeholder="your email"  value={email} onChange={(e)=>setEmail(e.target.value)}/>
-               <textarea value={coverLetter} onChange={(e)=>setCoverLetter(e.target.value)} placeholder="coverLetter" style={{width:'100%',height:'50px',padding:'10px'}}></textarea>
-               <div>
-                <label style={{textAlert:'start',display:'block',fontSize:'20px'}}>select resume:</label>
-                <input type="file" accept=".jpg,.png,.webp"  onChange={handlefilechange} style={{marginTop:'10px'}}/>
-               </div>
-               <button type="submit">Send application</button>
-            </form>
+          <h3>Application Form</h3>
+          <form onSubmit={handleSubmit} enctype="multipart/form-data">
+            <input
+              type="text"
+              placeholder="Your first name"
+              value={firstName}
+              name="firstName"
+              onChange={(e) => setFirstName(e.target.value)}
+              required // Add required attribute for better UX
+            />
+            <input
+              type="text"
+              placeholder="Your last name"
+              value={lastName}
+              name="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+              required // Add required attribute for better UX
+            />
+            <input
+              type="number"
+              placeholder="Your contact number"
+              value={contactNumber}
+              name="contactNumber"
+              onChange={(e) => setContactNumber(e.target.value)}
+              required // Add required attribute for better UX
+            />
+            <input
+              type="text"
+              placeholder="Your current city"
+              value={currentCity}
+              name="currentCity"
+              onChange={(e) => setCurrentCity(e.target.value)}
+              required // Add required attribute for better UX
+            />
+            <input
+              type="email"
+              placeholder="Your email"
+              value={email}
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              required // Add required attribute for better UX
+            />
+            <textarea
+              value={coverLetter}
+              onChange={(e) => setCoverLetter(e.target.value)}
+              placeholder="Cover letter"
+              name="coverLetter"
+              style={{ width: "100%", height: "50px", padding: "10px" }}
+              required // Add required attribute for better UX
+            ></textarea>
+            <div>
+              <label
+                style={{
+                  textAlign: "start",
+                  display: "block",
+                  fontSize: "20px",
+                }}
+              >
+                Select resume:
+              </label>
+              <input
+                type="file"
+                accept="application/pdf"
+                name="resume"
+                onChange={handleFileChange}
+                style={{ marginTop: "10px" }}
+                required // Add required attribute for better UX
+              />
+            </div>
+            <button type="submit">Send application</button>
+          </form>
         </div>
-        </section>
-        </>
-    )
+      </section>
+    </>
+  );
 }
+
 export default Application;
