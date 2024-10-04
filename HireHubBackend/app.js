@@ -9,6 +9,8 @@ import applicationRouter from "./routes/applicationRouter.js";
 import jobRouter from "./routes/jobRouter.js";
 import { dbConnection } from "./database/dbConnection.js";
 import expressSession from "express-session";
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 const app = express();
@@ -33,6 +35,9 @@ app.use(
     secret: process.env.EXPRESS_SESSION_SECRET,
   })
 );
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(
   fileUpload({

@@ -56,7 +56,6 @@ export const postApplication = async (req, res) => {
 
     // Retrieve applicant (user who is applying)
     const applicant = req.user._id;
-
     // Create a new application
     const application = new ApplicationModel({
       job: job._id,
@@ -72,7 +71,8 @@ export const postApplication = async (req, res) => {
 
     // Save the application to the database
     await application.save();
-
+    job.applicants.push(applicant);
+    await job.save(); // Save the updated job document with the new applicant
     // Respond with success message
     res.status(201).json({
       success: true,
@@ -111,7 +111,7 @@ export const deleteApplication = async (req, res) => {
   }
 };
 export const getApplicantsForJob = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Job ID
 
   try {
     // Find the job by ID
@@ -122,49 +122,35 @@ export const getApplicantsForJob = async (req, res) => {
     }
 
     // Ensure the applicants field is an array
-    if (!Array.isArray(job.applicants)) {
-      return res
-        .status(500)
-        .json({ message: "Applicants data is not an array" });
+    if (!Array.isArray(job.applicants) || job.applicants.length === 0) {
+      return res.status(404).json({ message: "No applicants for this job" });
     }
 
-    // Extract the array of applicant IDs from the objects in the applicants array
-    const applicantIds = job.applicants.map((applicant) => applicant._id);
-
-    // Find all applications using the array of IDs
-    const applicants = await ApplicationModel.find({
-      _id: { $in: applicantIds },
+    // Find all applications for the specific job using the job ID
+    const applications = await ApplicationModel.find({
+      job: job._id, // Only applications related to this specific job
+      applicant: { $in: job.applicants }, // Ensure the applicant is in the job's applicants list
     });
 
-    // const userIds = applicants.map(application => application.applicant.toString());
-
-    // // Fetch the users based on userIds
-    // const users = await userModel.find({ _id: { $in: userIds } });
-
-    // const profiles=users.map(profile=>profile.profile.toString());
-
-    // const profilee=await profileModel.find({_id:{$in:profiles}});
-
-    // const pic=profilee.map(pic=>pic.profile.url);
-
-    // Ensure the result is an array
-    if (!Array.isArray(applicants)) {
+    if (!Array.isArray(applications) || applications.length === 0) {
       return res
-        .status(500)
-        .json({ message: "Failed to retrieve applicants data" });
+        .status(404)
+        .json({ message: "No applicants found for this job" });
     }
 
-    const applicantDetails = applicants.map((applicant) => ({
-      _id: applicant._id,
-      firstName: applicant.firstName,
-      lastName: applicant.lastName,
-      email: applicant.email,
-      contactNumber: applicant.contactNumber,
-      currentCity: applicant.currentCity,
-      coverLetter: applicant.coverLetter,
-      resumeUrl: applicant.resume.url,
+    // Map the applicant details for response
+    const applicantDetails = applications.map((application) => ({
+      _id: application._id,
+      firstName: application.firstName,
+      lastName: application.lastName,
+      email: application.email,
+      contactNumber: application.contactNumber,
+      currentCity: application.currentCity,
+      coverLetter: application.coverLetter,
+      resume: `http://localhost:4000/uploads/${application.resume}`, // Assuming you have resume URL or file name
     }));
 
+    // Send the response with the applicant details
     res.status(200).json({ applicants: applicantDetails });
   } catch (error) {
     console.error("Error fetching applicants:", error);

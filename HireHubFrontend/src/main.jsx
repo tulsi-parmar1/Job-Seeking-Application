@@ -7,7 +7,6 @@ import Register from "./Components/Auth/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./Components/Home/Home";
-
 import JobDetail from "./Components/Job/JobDetail";
 import MyJobs from "./Components/Job/MyJobs";
 import Application from "./Components/application/Application";
@@ -29,6 +28,8 @@ import JobsByCount from "./Components/Job/JobsByCount.jsx";
 import RecruiterLogin from "./Components/Auth/RecruiterLogin.jsx";
 import SavedJobs from "./Components/Job/SavedJobs.jsx";
 import Profilemain from "./Components/Profile/Profilemain.jsx";
+import SimilarJobs from "./Components/Job/SimilarJobs.jsx";
+import ProfileJobDetail from "./Components/Job/ProfileJobDetail.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,7 +43,6 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login></Login>,
       },
-
       {
         path: "register",
         element: <Register></Register>,
@@ -50,10 +50,6 @@ const router = createBrowserRouter([
       {
         path: "job/getall",
         element: <Jobs></Jobs>,
-      },
-      {
-        path: "job/:id",
-        element: <JobDetail></JobDetail>,
       },
       {
         path: "job/post",
@@ -70,10 +66,6 @@ const router = createBrowserRouter([
       {
         path: "recruiterlogin",
         element: <RecruiterLogin></RecruiterLogin>,
-      },
-      {
-        path: "job/update/:id",
-        element: <UpdateJob></UpdateJob>,
       },
       ,
       {
@@ -93,28 +85,55 @@ const router = createBrowserRouter([
         path: "getSavedJobs/:id",
         element: <GetSavedJobs></GetSavedJobs>,
       },
-      {
-        path: "application/viewapplication/:id",
-        element: <Viewapplication></Viewapplication>,
-      },
+      // {
+      //   path: "profile",
+      //   element: <Profilemain />,
+      //   children: [
+      //     { path: "", element: <Profile /> },
+      //     { path: "savedjobs", element: <SavedJobs /> },
+      //     {
+      //       path: "job/me",
+      //       element: <MyJobs />, // Route for "My Jobs" list
+      //       children: [
+      //         {
+      //           path: ":id",
+      //           element: <MyJobDetail></MyJobDetail>,
+      //         },
+      //         {
+      //           path: "application/viewapplication/:id",
+      //           element: <Viewapplication></Viewapplication>,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
         path: "profile",
-        element: <Profilemain></Profilemain>,
+        element: <Profilemain />,
         children: [
-          { path: "", element: <Profile></Profile> },
-          {
-            path: "savedjobs",
-            element: <SavedJobs></SavedJobs>,
-          },
+          { path: "", element: <Profile /> },
+          { path: "savedjobs", element: <SavedJobs /> },
           {
             path: "job/me",
-            element: <MyJobs></MyJobs>,
+            element: <MyJobs />, // Route for "My Jobs" list
+          },
+          {
+            path: "job/me/:id",
+            element: <MyJobDetail></MyJobDetail>,
+          },
+          {
+            path: "job/me/application/viewapplication/:id",
+            element: <Viewapplication></Viewapplication>,
+          },
+          {
+            path: "job/me/update/:id",
+            element: <UpdateJob></UpdateJob>,
           },
         ],
       },
       {
-        path: "job/myJobDetail/:id",
-        element: <MyJobDetail></MyJobDetail>,
+        path: "job/:id",
+        element: <JobDetail />,
       },
       {
         path: "*",

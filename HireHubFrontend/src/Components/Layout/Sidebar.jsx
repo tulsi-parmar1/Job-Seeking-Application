@@ -1,15 +1,14 @@
-
-import { useLocation, NavLink } from 'react-router-dom';
+import { useLocation, NavLink } from "react-router-dom";
 import style from "../../module/Profile.module.css";
 
 function Sidebar() {
   const location = useLocation();
-  
+
   return (
     <div className={style.sidebarlinks}>
       <NavLink
         to="/profile"
-        className={location.pathname === '/profile' ? style.active : ""}
+        className={location.pathname === "/profile" ? style.active : ""}
         end
       >
         Profile
@@ -17,14 +16,26 @@ function Sidebar() {
       <br />
       <NavLink
         to="/profile/savedjobs"
-        className={location.pathname === '/profile/savedjobs' ? style.active : ""}
+        className={
+          location.pathname === "/profile/savedjobs" ? style.active : ""
+        }
       >
         Saved Jobs
       </NavLink>
       <br />
+      {/* <NavLink
+        to="/profile/job/me"
+        isActive={(match, location) => location.pathname.includes("/job/me")}
+        activeClassName="active"
+      >
+        My Jobs
+      </NavLink> */}
+
       <NavLink
         to="/profile/job/me"
-        className={location.pathname === '/profile/job/me' ? style.active : ""}
+        className={
+          location.pathname.includes("/profile/job/me") ? style.active : ""
+        }
       >
         My Jobs
       </NavLink>
@@ -33,4 +44,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-
