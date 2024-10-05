@@ -54,6 +54,7 @@ const JobDetailSub = ({ job, applicants, id }) => {
       toast.error(error);
     }
   }, []);
+
   return (
     <>
       <GrLinkPrevious
@@ -125,30 +126,20 @@ const JobDetailSub = ({ job, applicants, id }) => {
           <p style={{ fontSize: "17px" }}>{job.description}</p>
         </div>
         <div>
-          <p style={{ fontWeight: "bold" }}>Requirements: </p>
-          <ul>
-            {job.requirements &&
-              job.requirements[0].split(",").map((requirement, index) => (
-                <li key={index}>
-                  <LuDot />
-                  {requirement.trim()}
-                </li>
-              ))}
-          </ul>
+          {job.requirements && (
+            <>
+              <p style={{ fontWeight: "bold" }}>Requirements: </p>
+              <div dangerouslySetInnerHTML={{ __html: job.requirements }} />
+            </>
+          )}
         </div>
         <div>
-          <p style={{ fontWeight: "bold" }}>Responsibilities: </p>
-          <ul>
-            {job.responsibilities &&
-              job.responsibilities[0]
-                .split(",")
-                .map((responsibilities, index) => (
-                  <li key={index}>
-                    <LuDot />
-                    {responsibilities.trim()}
-                  </li>
-                ))}
-          </ul>
+          {job.responsibilities && (
+            <>
+              <p style={{ fontWeight: "bold" }}>Responsibilities: </p>
+              <div dangerouslySetInnerHTML={{ __html: job.responsibilities }} />
+            </>
+          )}
         </div>
         <div>
           <p style={{ fontWeight: "bold" }}>Qualification</p>

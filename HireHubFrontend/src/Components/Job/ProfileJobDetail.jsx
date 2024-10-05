@@ -15,11 +15,10 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa6";
 const ProfileJobDetail = ({ job, applicants, id }) => {
   const navigate = useNavigate();
-  console.log("rpfoi");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
+  console.log(job.requirements);
   return (
     <>
       <div
@@ -84,30 +83,22 @@ const ProfileJobDetail = ({ job, applicants, id }) => {
             <p style={{ fontSize: "17px" }}>{job.description}</p>
           </div>
           <div>
-            <p style={{ fontWeight: "bold" }}>Requirements: </p>
-            <ul>
-              {job.requirements &&
-                job.requirements[0].split(",").map((requirement, index) => (
-                  <li key={index}>
-                    <LuDot />
-                    {requirement.trim()}
-                  </li>
-                ))}
-            </ul>
+            {job.requirements && (
+              <>
+                <p style={{ fontWeight: "bold" }}>Requirements: </p>
+                <div dangerouslySetInnerHTML={{ __html: job.requirements }} />
+              </>
+            )}
           </div>
           <div>
-            <p style={{ fontWeight: "bold" }}>Responsibilities: </p>
-            <ul>
-              {job.responsibilities &&
-                job.responsibilities[0]
-                  .split(",")
-                  .map((responsibilities, index) => (
-                    <li key={index}>
-                      <LuDot />
-                      {responsibilities.trim()}
-                    </li>
-                  ))}
-            </ul>
+            {job.responsibilities && (
+              <>
+                <p style={{ fontWeight: "bold" }}>Responsibilities: </p>
+                <div
+                  dangerouslySetInnerHTML={{ __html: job.responsibilities }}
+                />
+              </>
+            )}
           </div>
           <div>
             <p style={{ fontWeight: "bold" }}>Qualification</p>
