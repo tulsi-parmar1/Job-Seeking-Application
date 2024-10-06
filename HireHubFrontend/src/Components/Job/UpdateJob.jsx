@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { GrLinkPrevious } from "react-icons/gr";
 import style from "../../module/UpdateJob.module.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const UpdateJob = () => {
   const [job, setJob] = useState({});
@@ -13,10 +15,17 @@ const UpdateJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Update the job object directly when quill content changes
+  const handleQuillChange = (field, value) => {
+    setJob((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Check if the name belongs to the salary range inputs
     if (name === "salaryRange-min") {
       setJob((prevState) => ({
         ...prevState,
@@ -34,54 +43,46 @@ const UpdateJob = () => {
         },
       }));
     } else {
-      // Default handling for other inputs
       setJob((prevState) => ({
         ...prevState,
         [name]: value,
       }));
     }
   };
+
+  // Fetch job details
   useEffect(() => {
     if (!isAuthorized) {
-      return navigate("/login");
+      navigate("/login");
     }
     axios
       .get(`http://localhost:4000/api/job/${id}`, { withCredentials: true })
       .then((res) => {
         const jobData = res.data.job;
-        //array to string separated by ,
-        setJob({
-          ...jobData,
-          requirements: jobData.requirements.join(", "),
-          responsibilities: jobData.responsibilities.join(", "),
-        });
+        setJob(jobData); // Set the fetched job data to the state
       })
       .catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response.data.message);
+        toast.error(err.response.data.message);
       });
   }, []);
 
+  // Update the job
   const handleUpdate = async (jobId) => {
     try {
-      const updateJob = {
-        ...job,
-        requirements: job.requirements.split(",").map((item) => item.trim()),
-        responsibilities: job.responsibilities
-          .split(",")
-          .map((item) => item.trim()),
-      };
+      const updateJob = { ...job };
+
       const { data } = await axios.put(
         `http://localhost:4000/api/job/updateJob/${jobId}`,
         updateJob,
         { withCredentials: true }
       );
-      alert(data.message);
-      navigate("/job/me");
+      toast.success(data.message);
+      navigate(`/profile/job/me/${jobId}`);
     } catch (error) {
-      alert(error);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
+
   return (
     <>
       <GrLinkPrevious
@@ -91,56 +92,57 @@ const UpdateJob = () => {
       />
       <div className="jobDetail page">
         <div className={style.container}>
-          <h1>update Job</h1>
+          <h1>Update Job</h1>
           <div className={style.banner}>
             <p>
-              title:{" "}
+              Title:{" "}
               <input
                 type="text"
                 name="title"
-                value={job.title}
+                value={job.title || ""}
                 onChange={handleInputChange}
               />
             </p>
             <p>
-              description:
+              Description:
               <textarea
                 type="text"
                 name="description"
-                value={job.description}
+                value={job.description || ""}
                 onChange={handleInputChange}
                 rows={6}
               />
             </p>
             <p>
-              contact Email:
+              Contact Email:
               <input
                 type="text"
                 name="contactEmail"
-                value={job.contactEmail}
+                value={job.contactEmail || ""}
                 onChange={handleInputChange}
               />
             </p>
             <p>
-              Employeement Time{" "}
+              Employment Type:{" "}
               <input
                 type="text"
                 name="employmentType"
-                value={job.employmentType}
+                value={job.employmentType || ""}
                 onChange={handleInputChange}
               />
             </p>
             <select
               name="categories"
-              value={job.categories}
+              value={job.categories || ""}
               onChange={handleInputChange}
             >
+              <p>Select categories</p>
               <option value="">Select categories</option>
               <option value="Information Technology (IT)">
                 Information Technology (IT)
               </option>
               <option value="Healthcare">Healthcare</option>
-              <option value="Engineering">Engineering</option>
+
               <option value="Education">Education</option>
               <option value="Human Resources">Human Resources</option>
               <option value="Customer Service">Customer Service</option>
@@ -153,13 +155,13 @@ const UpdateJob = () => {
                     <input
                       type="text"
                       name="salaryRange-min"
-                      value={job.salaryRange.min}
+                      value={job.salaryRange.min || ""}
                       onChange={handleInputChange}
                     />
                     <input
                       type="text"
                       name="salaryRange-max"
-                      value={job.salaryRange.min}
+                      value={job.salaryRange.max || ""}
                       onChange={handleInputChange}
                     />
                   </>
@@ -168,21 +170,19 @@ const UpdateJob = () => {
                 )}
               </span>
             </p>
-            <p>Requirements: (comma separated)</p>
-            <textarea
-              type="text"
-              name="requirements"
-              value={job.requirements}
-              onChange={handleInputChange}
-              rows={4}
+            <p>Requirements:</p>
+            <ReactQuill
+              value={job.requirements || ""}
+              onChange={(value) => handleQuillChange("requirements", value)}
+              placeholder="Requirements..."
+              style={{ backgroundColor: "white", border: "none" }}
             />
-            <p>Responsibilities: (comma separated)</p>
-            <textarea
-              type="text"
-              name="responsibilities"
-              value={job.responsibilities}
-              onChange={handleInputChange}
-              rows={4}
+            <p>Responsibilities:</p>
+            <ReactQuill
+              value={job.responsibilities || ""}
+              onChange={(value) => handleQuillChange("responsibilities", value)}
+              placeholder="Responsibilities..."
+              style={{ backgroundColor: "white", border: "none" }}
             />
             <button onClick={() => handleUpdate(job._id)}>Update</button>
           </div>
@@ -191,4 +191,5 @@ const UpdateJob = () => {
     </>
   );
 };
+
 export default UpdateJob;

@@ -18,8 +18,14 @@ import { FaEdit } from "react-icons/fa";
 
 import { FaBookmark } from "react-icons/fa6";
 import gsap from "gsap";
-const JobLayout = ({ jobs, homepage, similar, onUnsaveJob, isProfileView }) => {
-  console.log(isProfileView);
+const JobLayout = ({
+  jobs,
+  setJobs,
+  homepage,
+  similar,
+  onUnsaveJob,
+  isProfileView,
+}) => {
   const jobRef = useRef();
   useEffect(() => {
     if (homepage) {
@@ -81,7 +87,8 @@ const JobLayout = ({ jobs, homepage, similar, onUnsaveJob, isProfileView }) => {
           { withCredentials: true }
         );
         toast.success(data.message);
-        navigate("/profile/job/me"); // Redirect after deletion
+        setJobs((prevJobs) => prevJobs.filter((job) => job._id !== id));
+        // navigate("/profile/job/me"); // Redirect after deletion
       } catch (error) {
         toast.error(error.response?.data?.message || error.message);
       }

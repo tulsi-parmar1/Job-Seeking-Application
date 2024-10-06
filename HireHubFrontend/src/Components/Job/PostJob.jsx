@@ -23,7 +23,7 @@ function PostJob() {
   const [requirements, setRequirements] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [contactEmail, setContactEmail] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [deadline, setDeadline] = useState(false);
   const [categories, setCategories] = useState("");
   const [logo, setLogo] = useState(null);
   const [bullet, setBullet] = useState(false);
@@ -81,7 +81,6 @@ function PostJob() {
     setValue2(content);
     setResponsibilities(content);
   };
-  console.log(requirements);
   const handlefilechange = (e) => {
     const logo2 = e.target.files[0];
     setLogo(logo2);

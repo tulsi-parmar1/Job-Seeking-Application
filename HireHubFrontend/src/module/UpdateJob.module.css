@@ -20,7 +20,27 @@
   width: 100%; /* Make banner full width */
   max-width: 600px; /* Set a maximum width for larger screens */
 }
-
+.container input,
+textarea,
+select {
+  border: none;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+.container select {
+  height: 50px;
+}
+.container button {
+  background-color: #088295bf;
+  border: none;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+    background-color: #0882955b;
+  }
+}
 .banner input,
 .banner textarea {
   width: 100%; /* Make inputs and textareas full width */

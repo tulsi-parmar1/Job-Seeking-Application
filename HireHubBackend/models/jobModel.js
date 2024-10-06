@@ -77,16 +77,16 @@ const jobSchema = new mongoose.Schema({
     ref: "userModel",
     required: true,
   },
-  // logo:{
-  //     public_id:{
-  //         type:String,
-  //         required:true
-  //     },
-  //     url:{
-  //         type:String,
-  //         required:true
-  //     }
-  // }
+  logo: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
 });
 const JobModel = mongoose.model("Job", jobSchema);
 export default JobModel;

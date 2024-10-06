@@ -45,7 +45,11 @@ function MyJobs() {
                     My Jobs
                   </h1>
 
-                  <JobLayout jobs={myJobs} isProfileView={true}></JobLayout>
+                  <JobLayout
+                    jobs={myJobs}
+                    isProfileView={true}
+                    setJobs={setMyJobs}
+                  ></JobLayout>
                 </>
               ) : (
                 <>
