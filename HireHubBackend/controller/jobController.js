@@ -175,23 +175,6 @@ export const similarJobs = async (req, res) => {
   }
 };
 export const countCategories = async (req, res) => {
-  // try {
-  //     const jobs = await JobModel.find(); // Fetch all jobs as array
-  //     const categoryCount = {};
-
-  //     // Count jobs by category
-  //     jobs.forEach(job => {
-  //         const category = job.categories;
-  //         if (categoryCount[category]) {
-  //             categoryCount[category] += 1; // Increment count
-  //         } else {
-  //             categoryCount[category] = 1; // Initialize count
-  //         }
-  //     });
-  //     res.json(categoryCount); // Send the result
-  // } catch (error) {
-  //     res.status(500).send(error);
-  // }
   try {
     const itJobs = await JobModel.find({
       categories: "Information Technology (IT)",
@@ -201,7 +184,6 @@ export const countCategories = async (req, res) => {
     const hr = await JobModel.find({ categories: "Human Resources" });
     const ac = await JobModel.find({ categories: "Accountant" });
     const cs = await JobModel.find({ categories: "Customer Service" });
-    // const eng=await JobModel.find({categories:'Engineering'});
 
     res.send({
       itjobs: itJobs,

@@ -30,6 +30,7 @@ import SavedJobs from "./Components/Job/SavedJobs.jsx";
 import Profilemain from "./Components/Profile/Profilemain.jsx";
 import SimilarJobs from "./Components/Job/SimilarJobs.jsx";
 import ProfileJobDetail from "./Components/Job/ProfileJobDetail.jsx";
+import CategoryJobs from "./Components/Job/CategoryJobs.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -130,6 +131,10 @@ const router = createBrowserRouter([
             element: <UpdateJob></UpdateJob>,
           },
         ],
+      },
+      {
+        path: "category/jobs/:category",
+        element: <CategoryJobs></CategoryJobs>,
       },
       {
         path: "job/:id",

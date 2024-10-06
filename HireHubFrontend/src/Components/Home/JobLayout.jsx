@@ -27,27 +27,8 @@ const JobLayout = ({
   isProfileView,
 }) => {
   const jobRef = useRef();
-  useEffect(() => {
-    if (homepage) {
-      gsap.fromTo(
-        jobRef.current.children,
-        { opacity: 0, y: -10 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: jobRef.current,
-            start: "top 80%",
-            // end: "top 30%",
-            // scrub: true,
-          },
-        }
-      );
-    }
-  }),
-    [];
+
+  [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [saved, setSaved] = useState([]);
