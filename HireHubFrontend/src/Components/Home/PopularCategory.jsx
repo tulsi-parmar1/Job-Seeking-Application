@@ -17,12 +17,7 @@ function PopularCategory() {
   const [healthcarel, setHealthcarel] = useState("");
   const [hrl, setHrl] = useState("");
   const [csl, setCsl] = useState("");
-  const [itJobs, setitJobs] = useState([]);
-  const [healthcareJobs, setHealthcareJobs] = useState([]);
-  const [educationJobs, setEducationJobs] = useState([]);
-  const [hrJobs, setHrJobs] = useState([]);
-  const [accountantJobs, setAccountantJobs] = useState([]);
-  const [csJobs, setCsJobs] = useState([]);
+
   const containerRef = useRef();
   const navigate = useNavigate();
   const textRef = useRef();
@@ -38,12 +33,6 @@ function PopularCategory() {
         setHealthcarel(res.data.healthcarelength);
         setHrl(res.data.hrlength);
         setCsl(res.data.cslength);
-        setitJobs(res.data.itjobs);
-        setHealthcareJobs(res.data.healthcare);
-        setEducationJobs(res.data.education);
-        setHrJobs(res.data.hr);
-        setAccountantJobs(res.data.ac);
-        setCsJobs(res.data.cs);
       })
       .catch((error) => {
         console.error("Error fetching job counts by category:", error);

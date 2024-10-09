@@ -1,50 +1,67 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JobLayout from "../Home/JobLayout";
+import axios from "axios";
+
 function CategoryJobs() {
-  const [itJobs, setitJobs] = useState([]);
-  const [healthcareJobs, setHealthcareJobs] = useState([]);
-  const [educationJobs, setEducationJobs] = useState([]);
-  const [hrJobs, setHrJobs] = useState([]);
-  const [accountantJobs, setAccountantJobs] = useState([]);
-  const [csJobs, setCsJobs] = useState([]);
   const { category } = useParams();
+  const [jobsData, setJobsData] = useState({
+    it: [],
+    healthcare: [],
+    education: [],
+    hr: [],
+    accountant: [],
+    cs: [],
+  });
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/job/countCategories", {
         withCredentials: true,
       })
       .then((res) => {
-        setitJobs(res.data.itjobs);
-        setHealthcareJobs(res.data.healthcare);
-        setEducationJobs(res.data.education);
-        setHrJobs(res.data.hr);
-        setAccountantJobs(res.data.ac);
-        setCsJobs(res.data.cs);
+        setJobsData({
+          it: res.data.itjobs || [],
+          healthcare: res.data.healthcare || [],
+          education: res.data.education || [],
+          hr: res.data.hr || [],
+          accountant: res.data.ac || [],
+          cs: [],
+        });
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching job counts by category:", error);
+        console.error("Error fetching job data:", error);
+        setError("Failed to load job data.");
+        setLoading(false);
       });
   }, []);
 
+  const categoryJobs = {
+    "information technology": jobsData.it,
+    healthcare: jobsData.healthcare,
+    education: jobsData.education,
+    "human resource": jobsData.hr,
+    account: jobsData.accountant,
+    "customer service": jobsData.cs,
+  };
+
+  const jobs = categoryJobs[category] || [];
+
   return (
     <div style={{ marginTop: "150px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        Category wise Jobs
-      </h1>
-      {category === "information technology" && (
-        <JobLayout jobs={itJobs}></JobLayout>
+      {jobs.length > 0 ? (
+        <>
+          <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+            Category-wise Jobs
+          </h1>
+          <JobLayout jobs={jobs} />
+        </>
+      ) : (
+        <p style={{ fontSize: "25px", textAlign: "center" }}>
+          No jobs posted in the {category} category
+        </p>
       )}
-      {category === "education" && <JobLayout jobs={educationJobs}></JobLayout>}
-      {category === "human resource" && <JobLayout jobs={hrJobs}></JobLayout>}
-      {category === "healthcare" && (
-        <JobLayout jobs={healthcareJobs}></JobLayout>
-      )}
-      {category === "account" && <JobLayout jobs={accountantJobs}></JobLayout>}
-      {category === "customer service" && <JobLayout jobs={csJobs}></JobLayout>}
     </div>
   );
 }
