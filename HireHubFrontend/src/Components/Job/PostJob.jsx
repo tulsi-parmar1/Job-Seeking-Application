@@ -162,12 +162,18 @@ function PostJob() {
               />
             </div>
             <div className="wrapper">
-              <input
-                type="text"
+              <select
                 value={employmentType}
                 onChange={(e) => setEmploymentType(e.target.value)}
-                placeholder="Employment Type"
-              />
+              >
+                <option value="">Select Employement Type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+                <option value="Remote Job">Remote Job</option>
+              </select>
             </div>
             <div className="wrapper">
               <input

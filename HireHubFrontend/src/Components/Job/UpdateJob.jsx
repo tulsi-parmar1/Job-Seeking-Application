@@ -123,13 +123,21 @@ const UpdateJob = () => {
               />
             </p>
             <p>
-              Employment Type:{" "}
-              <input
-                type="text"
-                name="employmentType"
+              Employment Type:
+              <select
                 value={job.employmentType || ""}
+                name="employementType"
                 onChange={handleInputChange}
-              />
+                style={{ marginLeft: "20px" }}
+              >
+                <option value="">Select Employement Type</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+                <option value="Remote Job">Remote Job</option>
+              </select>
             </p>
             <select
               name="categories"

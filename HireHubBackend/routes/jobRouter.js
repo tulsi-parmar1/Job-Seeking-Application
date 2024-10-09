@@ -7,20 +7,20 @@ import {
   postJob,
   updateJob,
   countCategories,
-  jobsByCount,
   latestJob,
   similarJobs,
 } from "../controller/jobController.js";
+import { jobsCountByType } from "../controller/jobController.js";
 import { isLoggedin } from "../middleware/isLoggedIn.js";
+
 const router = express.Router();
 
 router.post("/postJob", isLoggedin, postJob);
 router.get("/similarJobs/:id", similarJobs);
 router.get("/latestJob", isLoggedin, latestJob);
 router.get("/countCategories", countCategories);
-router.get("/jobsByCategory", jobsByCount);
 router.get("/getAll", isLoggedin, getAllJob);
-
+router.get("/jobtype", jobsCountByType);
 router.get("/getMyJobs", isLoggedin, getMyJobs);
 router.put("/updateJob/:id", isLoggedin, updateJob);
 router.delete("/deleteJob/:id", isLoggedin, deleteJob);

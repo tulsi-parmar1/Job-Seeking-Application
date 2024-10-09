@@ -184,7 +184,6 @@ export const countCategories = async (req, res) => {
     const hr = await JobModel.find({ categories: "Human Resources" });
     const ac = await JobModel.find({ categories: "Accountant" });
     const cs = await JobModel.find({ categories: "Customer Service" });
-
     res.send({
       itjobs: itJobs,
       itjobslength: itJobs.length,
@@ -201,7 +200,7 @@ export const countCategories = async (req, res) => {
     });
   } catch (error) {
     res.status(201).send({
-      message: "error occured in fetching jobs",
+      message: "error occured in fetching category jobs",
       error,
     });
   }
@@ -214,4 +213,29 @@ export const latestJob = async (req, res) => {
     .exec(); // Execute the query
   res.send(jobs);
 };
-export const jobsByCount = async (req, res) => {};
+export const jobsCountByType = async (req, res) => {
+  try {
+    const fullTime = await JobModel.find({ employmentType: "Full-time" });
+    const partTime = await JobModel.find({ employmentType: "Part-time" });
+    const contract = await JobModel.find({ employmentType: "Contract" });
+    const internship = await JobModel.find({ employmentType: "Internship" });
+    const remoteJob = await JobModel.find({ employmentType: "Remote Job" });
+    res.send({
+      fullTime,
+      fullTimeLength: fullTime.length,
+      partTime,
+      partTimeLength: partTime.length,
+      contract,
+      contractLength: contract.length,
+      internship,
+      internshipLength: internship.length,
+      remoteJob,
+      remoteJobLength: remoteJob.length,
+    });
+  } catch (error) {
+    res.status(201).send({
+      message: "error occured in fetching type jobs",
+      error,
+    });
+  }
+};
