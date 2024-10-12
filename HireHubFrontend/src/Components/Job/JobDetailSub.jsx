@@ -25,6 +25,7 @@ const JobDetailSub = ({ job, applicants, id }) => {
     window.scrollTo(0, 0);
   }, []);
   const { users } = useSelector((state) => state.user);
+  console.log(users);
   const toggleSaveJob = async (jobId) => {
     try {
       const response = await axios.post(
@@ -74,11 +75,12 @@ const JobDetailSub = ({ job, applicants, id }) => {
                   view applicants
                 </button>
               )}
-              {!(users._id === job.postedBy) && (
-                <button onClick={() => navigate(`/application/${job._id}`)}>
-                  Apply now
-                </button>
-              )}
+              {!(users._id === job.postedBy) &&
+                !(users.role === "recruiter") && (
+                  <button onClick={() => navigate(`/application/${job._id}`)}>
+                    Apply now
+                  </button>
+                )}
             </p>
 
             <div

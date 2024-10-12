@@ -3,12 +3,12 @@ import validator from "validator";
 const applicationSchema = new mongoose.Schema({
   job: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "JobModel",
+    ref: "Job",
     required: true,
   },
   applicant: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel", // Assuming you have a User model
+    ref: "user", // Assuming you have a User model
     required: true,
   },
   resume: {

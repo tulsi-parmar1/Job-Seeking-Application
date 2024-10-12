@@ -20,6 +20,7 @@ router.get("/similarJobs/:id", similarJobs);
 router.get("/latestJob", isLoggedin, latestJob);
 router.get("/countCategories", countCategories);
 router.get("/getAll", isLoggedin, getAllJob);
+
 router.get("/jobtype", jobsCountByType);
 router.get("/getMyJobs", isLoggedin, getMyJobs);
 router.put("/updateJob/:id", isLoggedin, updateJob);

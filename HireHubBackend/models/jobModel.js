@@ -66,7 +66,7 @@ const jobSchema = new mongoose.Schema({
   applicants: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "ApplicationModel", // Assuming you have an Application model
+      ref: "Application", // Assuming you have an Application model
     },
   ],
   contactEmail: {
@@ -74,7 +74,7 @@ const jobSchema = new mongoose.Schema({
   },
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel",
+    ref: "user",
     required: true,
   },
   logo: {

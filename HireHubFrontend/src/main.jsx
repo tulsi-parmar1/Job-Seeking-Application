@@ -32,6 +32,7 @@ import SimilarJobs from "./Components/Job/SimilarJobs.jsx";
 import ProfileJobDetail from "./Components/Job/ProfileJobDetail.jsx";
 import CategoryJobs from "./Components/Job/CategoryJobs.jsx";
 import JobsByType from "./Components/Job/JobsByType.jsx";
+import JobDetailSub from "./Components/Job/JobDetailSub.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -79,42 +80,23 @@ const router = createBrowserRouter([
         element: <Application></Application>,
       },
       {
-        path: "application/me",
-        element: <MyApplication></MyApplication>,
-      },
-      ,
-      {
         path: "getSavedJobs/:id",
         element: <GetSavedJobs></GetSavedJobs>,
       },
-      // {
-      //   path: "profile",
-      //   element: <Profilemain />,
-      //   children: [
-      //     { path: "", element: <Profile /> },
-      //     { path: "savedjobs", element: <SavedJobs /> },
-      //     {
-      //       path: "job/me",
-      //       element: <MyJobs />, // Route for "My Jobs" list
-      //       children: [
-      //         {
-      //           path: ":id",
-      //           element: <MyJobDetail></MyJobDetail>,
-      //         },
-      //         {
-      //           path: "application/viewapplication/:id",
-      //           element: <Viewapplication></Viewapplication>,
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
       {
         path: "profile",
         element: <Profilemain />,
         children: [
           { path: "", element: <Profile /> },
           { path: "savedjobs", element: <SavedJobs /> },
+          {
+            path: "application/me",
+            element: <MyApplication></MyApplication>,
+          },
+          {
+            path: "application/me/job/:id",
+            element: <JobDetail></JobDetail>,
+          },
           {
             path: "job/me",
             element: <MyJobs />, // Route for "My Jobs" list

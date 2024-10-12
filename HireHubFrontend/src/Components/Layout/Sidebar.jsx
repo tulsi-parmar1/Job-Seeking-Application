@@ -1,9 +1,10 @@
 import { useLocation, NavLink } from "react-router-dom";
 import style from "../../module/Profile.module.css";
+import { useSelector } from "react-redux";
 
 function Sidebar() {
   const location = useLocation();
-
+  const { users } = useSelector((state) => state.user);
   return (
     <div className={style.sidebarlinks}>
       <NavLink
@@ -23,13 +24,6 @@ function Sidebar() {
         Saved Jobs
       </NavLink>
       <br />
-      {/* <NavLink
-        to="/profile/job/me"
-        isActive={(match, location) => location.pathname.includes("/job/me")}
-        activeClassName="active"
-      >
-        My Jobs
-      </NavLink> */}
 
       <NavLink
         to="/profile/job/me"
@@ -39,6 +33,19 @@ function Sidebar() {
       >
         My Jobs
       </NavLink>
+      <br />
+      {users.role !== "recruiter" && (
+        <NavLink
+          to="/profile/application/me"
+          className={
+            location.pathname.includes("/profile/application/me")
+              ? style.active
+              : ""
+          }
+        >
+          My Application
+        </NavLink>
+      )}
     </div>
   );
 }

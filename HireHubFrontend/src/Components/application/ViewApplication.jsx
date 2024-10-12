@@ -10,9 +10,8 @@ import { GrLinkPrevious } from "react-icons/gr";
 const ViewApplication = () => {
   const [applicants, setApplicants] = useState([]);
   const [error, setError] = useState(null);
-  const [popup, setpopup] = useState(false);
   const { id } = useParams();
-
+  console.log("id", id);
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
@@ -20,16 +19,8 @@ const ViewApplication = () => {
           `http://localhost:4000/api/application/getApplication/${id}`,
           { withCredentials: true }
         );
-        console.log(response.data.resume);
-
-        // Ensure response data contains the applicants array
-        if (response.data && Array.isArray(response.data.applicants)) {
-          setApplicants(response.data.applicants);
-        } else {
-          console.error("Unexpected response format:", response.data);
-          setError("Unexpected response format");
-        }
-        console.log(applicants);
+        console.log("response", response.data);
+        setApplicants(response.data.applicants);
       } catch (error) {
         console.error("Error fetching applicants:", error);
         setError("Error fetching applicants");
@@ -38,7 +29,6 @@ const ViewApplication = () => {
 
     fetchApplicants();
   }, [id]);
-
   const deleteApplication = async (idd) => {
     result = confirm("are you sure you want to delete?");
     if (result) {
@@ -68,10 +58,7 @@ const ViewApplication = () => {
     window.open(resume, "_blank");
   };
   return (
-    <div
-      className={`${style.applicants} ${popup && style.appli}`}
-      style={{ marginTop: "-1px" }}
-    >
+    <div className={`${style.applicants}`} style={{ marginTop: "-1px" }}>
       <GrLinkPrevious
         style={{ fontSize: "30px", marginLeft: "100px" }}
         className={style.previous}
@@ -138,21 +125,6 @@ const ViewApplication = () => {
                 >
                   View Full Resume
                 </button>
-
-                {popup && (
-                  <iframe
-                    src={applicant.resume}
-                    clasName={style.popup}
-                    height="200px"
-                    style={{
-                      height: "700px",
-                      width: "1000px",
-                      objectFit: "cover",
-                    }}
-                    onClick={() => setpopup(false)}
-                    title="Resume PDF"
-                  ></iframe>
-                )}
               </div>
             </div>
           </li>

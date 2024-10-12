@@ -10,7 +10,7 @@
 //     return (
 //         <>
 
-//             <div className={`${style.footer} ${!isAuthorized && style.footerHide}`}  >
+//
 //         <div className={style.one}>
 //                                 <h1 >Shop Non-Stop on Meesho</h1>
 //                                 <p>Trusted by more than 1 Crore Indians
@@ -65,10 +65,15 @@
 // export default Footer;
 import React from "react";
 import style from "../../module/Footer.module.css";
+import { useSelector } from "react-redux";
 
 function Footer() {
+  const { isAuthorized } = useSelector((state) => state.user);
   return (
-    <div>
+    <div
+      style={{ position: "sticky", bottom: "0px" }}
+      className={`${!isAuthorized && style.footerHide}`}
+    >
       <footer>
         <div className={style["footer-container"]}>
           <div className={style["footer-section"]}>
@@ -80,10 +85,10 @@ function Footer() {
             <h4>Quick Links</h4>
             <ul>
               <li>
-                <a href="/home">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
-                <a href="/jobs">Jobs</a>
+                <a href="/job/getall">Jobs</a>
               </li>
               <li>
                 <a href="/about">About Us</a>

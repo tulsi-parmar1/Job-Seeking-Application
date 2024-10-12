@@ -1,5 +1,6 @@
 import JobModel from "../models/jobModel.js";
 import { v2 as cloudinary } from "cloudinary"; // Import cloudinary correctly
+import ApplicationModel from "../models/applicationModel.js";
 
 export const getAllJob = async (req, res, next) => {
   try {
@@ -123,11 +124,29 @@ export const updateJob = async (req, res) => {
 };
 export const deleteJob = async (req, res) => {
   const { id } = req.params;
-  // const job=JobModel.findById(id);
-  await JobModel.findByIdAndDelete(id);
-  res.send({
-    message: "deleted successfully!",
-  });
+
+  try {
+    // First, delete the job
+    const deletedJob = await JobModel.findById(id);
+
+    // Check if the job was found and deleted
+    if (!deletedJob) {
+      return res.status(404).send({ message: "Job not found!" });
+    }
+
+    // Delete all applications related to this job
+    const applicationsDeleted = await ApplicationModel.deleteMany({ job: id });
+    await deletedJob.deleteOne();
+    res.send({
+      message: `Job and ${applicationsDeleted.length} applications are deleted.`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      message: "An error occurred while deleting the job.",
+      error: error.message,
+    });
+  }
 };
 export const getSingleJob = async (req, res) => {
   const { id } = req.params;

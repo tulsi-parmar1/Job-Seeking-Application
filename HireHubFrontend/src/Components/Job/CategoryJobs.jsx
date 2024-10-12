@@ -26,7 +26,7 @@ function CategoryJobs() {
           education: res.data.education || [],
           hr: res.data.hr || [],
           accountant: res.data.ac || [],
-          cs: [],
+          cs: res.data.cs || [],
         });
         setLoading(false);
       })
