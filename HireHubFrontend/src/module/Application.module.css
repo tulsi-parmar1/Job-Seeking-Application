@@ -5,7 +5,11 @@
   padding: 20px 200px;
   gap: 10px;
 }
-
+.container form input {
+  border: none;
+  min-height: 30px;
+  padding: 10px;
+}
 .applicants {
   margin-top: 200px;
 }
@@ -81,5 +85,34 @@
 
   .resumeFullimg {
     width: 100%; /* Make buttons responsive */
+  }
+}
+
+.container button {
+  background-color: #088295;
+  border: none;
+  height: 30px;
+  color: white;
+  margin-top: 20px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.loading {
+  border: 3px solid rgba(0, 0, 0, 0.1); /* Light grey */
+  border-left: 3px solid black; /* Blue color */
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+  display: block;
+}
+/* Keyframes for spinning animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

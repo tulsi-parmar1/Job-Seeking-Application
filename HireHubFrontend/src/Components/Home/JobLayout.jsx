@@ -172,7 +172,7 @@ const JobLayout = ({
                       {job.employmentType}
                     </p>
                     <p className={style.type} style={{ fontSize: "14px" }}>
-                      Remote Job
+                      {job.categories}
                     </p>
                     <p
                       className={style.applicants}

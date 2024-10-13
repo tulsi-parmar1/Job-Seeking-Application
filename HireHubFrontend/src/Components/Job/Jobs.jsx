@@ -7,21 +7,32 @@ import "react-toastify/dist/ReactToastify.css";
 import style from "../../module/Jobs.module.css";
 import JobLayout from "../Home/JobLayout";
 import Loader from "../Layout/Loader";
+
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
   const { isAuthorized } = useSelector((state) => state.user);
-  const [searchQuery, setSearchQuery] = useState();
+  const [searchQuery, setSearchQuery] = useState(""); // For job title
+  const [locationQuery, setLocationQuery] = useState(""); // For job location
+  const [typeQuery, setTypeQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  //search
-  const handlesearch = (e) => {
-    const search = e.target.value;
-    setSearchQuery(search);
+
+  // Handle search for job title
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Handle search for job location
+  const handleLocationSearch = (e) => {
+    setLocationQuery(e.target.value);
+  };
+  const handleTypeSearch = (e) => {
+    setTypeQuery(e.target.value);
   };
   useEffect(() => {
     try {
       axios
-        .get("http://localhost:4000/api/job/getAll ", { withCredentials: true })
+        .get("http://localhost:4000/api/job/getAll", { withCredentials: true })
         .then((res) => {
           setJobs(res.data.jobs);
           setLoading(false);
@@ -31,16 +42,19 @@ function Jobs() {
       setLoading(false);
     }
   }, []);
+
   if (!isAuthorized) {
     navigate("/login");
   }
 
-  //search
-  const filteredJob = searchQuery
-    ? jobs.filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : jobs;
+  // Filter jobs by both title and location
+  const filteredJobs = jobs.filter((job) => {
+    return (
+      job.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      job.location.toLowerCase().includes(locationQuery.toLowerCase()) &&
+      job.employmentType.toLowerCase().includes(typeQuery.toLocaleLowerCase())
+    );
+  });
 
   return (
     <>
@@ -51,17 +65,83 @@ function Jobs() {
           <div className={style.container}>
             <h1>All available jobs</h1>
             <div className={style.inpt}>
+              {/* Search by job title */}
               <input
                 type="text"
-                placeholder="search job"
-                onChange={handlesearch}
+                placeholder="Search job by title"
+                onChange={handleSearch}
+                value={searchQuery}
               />
+              {/* Search by job location */}
+              <input
+                type="text"
+                placeholder="Search job by location"
+                onChange={handleLocationSearch}
+                value={locationQuery}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  border: "1px solid rgba(128, 128, 128, 0.338)",
+                  padding: "px",
+                  borderRadius: "10px",
+                  backgroundColor: "white",
+                  marginBottom: "40px",
+                  marginTop: "20px",
+                }}
+              >
+                <input
+                  style={{ height: "10px", width: "10px" }}
+                  type="radio"
+                  name="type"
+                  value={"internship"}
+                  onChange={handleTypeSearch}
+                />
+                <p style={{ marginTop: "20px" }}>internship</p>
+
+                <input
+                  type="radio"
+                  style={{ height: "10px", width: "10px" }}
+                  name="type"
+                  value={"parttime"}
+                  onChange={handleTypeSearch}
+                />
+                <p style={{ marginTop: "20px" }}>part-Time</p>
+
+                <input
+                  type="radio"
+                  style={{ height: "10px", width: "10px" }}
+                  name="type"
+                  value={"fulltime"}
+                  onChange={handleTypeSearch}
+                />
+                <p style={{ marginTop: "20px" }}>Full-time</p>
+
+                <input
+                  type="radio"
+                  style={{ height: "10px", width: "10px" }}
+                  name="type"
+                  value={"contract"}
+                  onChange={handleTypeSearch}
+                />
+                <p style={{ marginTop: "20px" }}>contract</p>
+
+                <input
+                  type="radio"
+                  style={{ height: "10px", width: "10px" }}
+                  name="type"
+                  value={"RemoteJob"}
+                  onChange={handleTypeSearch}
+                />
+                <p style={{ marginTop: "20px" }}>Remote Job</p>
+              </div>
             </div>
-            <JobLayout jobs={filteredJob}></JobLayout>
+            <JobLayout jobs={filteredJobs}></JobLayout>
           </div>
         </div>
       )}
     </>
   );
 }
+
 export default Jobs;

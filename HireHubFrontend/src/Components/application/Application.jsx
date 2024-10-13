@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import style from "../../module/Application.module.css";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../Layout/Loader.jsx";
 
 function Application() {
   const { isAuthorized } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ function Application() {
   const [currentCity, setCurrentCity] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const [resume, setResume] = useState(null);
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -44,6 +46,7 @@ function Application() {
     formdata.append("currentCity", currentCity);
     formdata.append("coverLetter", coverLetter);
     formdata.append("resume", resume); // Ensure resume file is being appended correctly
+    setLoader(true);
     try {
       const { data } = await axios.post(
         `http://localhost:4000/api/application/postApplication/${id}`,
@@ -63,15 +66,17 @@ function Application() {
       setCoverLetter("");
       setResume(null); // Reset resume to null
       toast.success(data.message);
+      setLoader(false);
     } catch (error) {
       console.log("error", error.message);
+      setLoader(false);
     }
   };
   return (
     <>
       <section className={style.application} style={{ marginTop: "200px" }}>
         <div className={style.container}>
-          <h3>Application Form</h3>
+          <h3 style={{ textAlign: "center" }}>Application Form</h3>
           <form onSubmit={handleSubmit} enctype="multipart/form-data">
             <input
               type="text"
@@ -140,12 +145,14 @@ function Application() {
                 required // Add required attribute for better UX
               />
             </div>
-            <button type="submit">Send application</button>
+            <button type="submit" disabled={loader}>
+              Send application
+            </button>
+            <span className={`${loader && style.loading}`}></span>
           </form>
         </div>
       </section>
     </>
   );
 }
-
 export default Application;

@@ -81,3 +81,21 @@ select {
     min-height: 40px; /* Increase min-height for easier input */
   }
 }
+.loading {
+  border: 3px solid rgba(0, 0, 0, 0.1); /* Light grey */
+  border-left: 3px solid black; /* Blue color */
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+  display: block;
+}
+/* Keyframes for spinning animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

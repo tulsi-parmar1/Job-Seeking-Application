@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JobLayout from "../Home/JobLayout";
 import axios from "axios";
+import Loader from "../Layout/Loader.jsx";
 
 function CategoryJobs() {
   const { category } = useParams();
+  const [loader, setLoader] = useState(true);
   const [jobsData, setJobsData] = useState({
     it: [],
     healthcare: [],
@@ -28,12 +30,12 @@ function CategoryJobs() {
           accountant: res.data.ac || [],
           cs: res.data.cs || [],
         });
-        setLoading(false);
+        setLoader(false);
       })
       .catch((error) => {
         console.error("Error fetching job data:", error);
         setError("Failed to load job data.");
-        setLoading(false);
+        setLoader(false);
       });
   }, []);
 
@@ -50,7 +52,9 @@ function CategoryJobs() {
 
   return (
     <div style={{ marginTop: "150px" }}>
-      {jobs.length > 0 ? (
+      {loader ? (
+        <Loader></Loader>
+      ) : jobs.length > 0 ? (
         <>
           <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
             Category-wise Jobs

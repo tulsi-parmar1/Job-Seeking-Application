@@ -9,7 +9,6 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 import style from "../../module/PostJob.module.css";
-import Loader from "../Layout/Loader";
 
 function PostJob() {
   const navigate = useNavigate();
@@ -236,7 +235,7 @@ function PostJob() {
               <input type="file" name="logo" onChange={handlefilechange} />
             </div>
             <div className={style.btn}>
-              <button type="submit">
+              <button type="submit" disabled={loader}>
                 Create Job{" "}
                 <span className={`${loader && style.loading}`}></span>
               </button>

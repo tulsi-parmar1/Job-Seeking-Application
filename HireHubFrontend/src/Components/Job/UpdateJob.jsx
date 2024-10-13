@@ -11,6 +11,7 @@ import "react-quill/dist/quill.snow.css";
 
 const UpdateJob = () => {
   const [job, setJob] = useState({});
+  const [loader, setLoader] = useState(false);
   const { isAuthorized } = useSelector((state) => state.user);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ const UpdateJob = () => {
     if (!isAuthorized) {
       navigate("/login");
     }
+
     axios
       .get(`http://localhost:4000/api/job/${id}`, { withCredentials: true })
       .then((res) => {
@@ -68,6 +70,7 @@ const UpdateJob = () => {
 
   // Update the job
   const handleUpdate = async (jobId) => {
+    setLoader(true);
     try {
       const updateJob = { ...job };
 
@@ -78,8 +81,10 @@ const UpdateJob = () => {
       );
       toast.success(data.message);
       navigate(`/profile/job/me/${jobId}`);
+      setLoader(false);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
+      setLoader(false);
     }
   };
 
@@ -192,7 +197,10 @@ const UpdateJob = () => {
               placeholder="Responsibilities..."
               style={{ backgroundColor: "white", border: "none" }}
             />
-            <button onClick={() => handleUpdate(job._id)}>Update</button>
+            <button onClick={() => handleUpdate(job._id)} disabled={loader}>
+              Update
+              <span className={`${loader && style.loading}`}></span>
+            </button>
           </div>
         </div>
       </div>
