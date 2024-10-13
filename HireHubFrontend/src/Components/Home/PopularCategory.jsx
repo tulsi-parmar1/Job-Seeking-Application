@@ -73,7 +73,7 @@ function PopularCategory() {
   return (
     <div className={style.maincont} ref={textRef}>
       <h1 style={{ textAlign: "center", marginTop: "50px" }}>
-        Most popular categories
+        Discover the Most Popular Categories
       </h1>
       <div className={style.container} ref={containerRef}>
         <div

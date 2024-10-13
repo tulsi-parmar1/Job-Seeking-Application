@@ -21,7 +21,7 @@ const LatestJob = () => {
     <>
       <div className={style.maincontainer}>
         <h1 style={{ margin: "60px", textAlign: "center" }} ref={textRef}>
-          Latest Jobs
+          The Latest Job Opportunities
         </h1>
         <JobLayout jobs={latestjob}></JobLayout>
         <div className={style.explore}>

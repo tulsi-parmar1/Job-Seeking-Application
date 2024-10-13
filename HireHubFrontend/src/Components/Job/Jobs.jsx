@@ -63,7 +63,17 @@ function Jobs() {
       ) : (
         <div className={style.jobcontainer}>
           <div className={style.container}>
-            <h1>All available jobs</h1>
+            <h1>Complete Job Listings</h1>
+            <p
+              style={{
+                textAlign: "center",
+                color: "gray",
+                fontSize: "14px",
+                marginTop: "8px",
+              }}
+            >
+              All Jobs in One Place: Your Ultimate Career Hub
+            </p>
             <div className={style.inpt}>
               {/* Search by job title */}
               <input

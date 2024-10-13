@@ -72,7 +72,7 @@ const JobType = () => {
     <>
       <div className={style.main2} ref={mainRef}>
         <h1 className={style.h11} ref={textRef}>
-          Current Job Listings by Type
+          Explore Jobs by Type
         </h1>
         <div className={style.main}>
           {details.map((element) => {
