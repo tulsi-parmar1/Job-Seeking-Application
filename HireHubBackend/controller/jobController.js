@@ -2,26 +2,79 @@ import JobModel from "../models/jobModel.js";
 import { v2 as cloudinary } from "cloudinary"; // Import cloudinary correctly
 import ApplicationModel from "../models/applicationModel.js";
 
-export const getAllJob = async (req, res, next) => {
+// export const getAllJob = async (req, res, next) => {
+//   try {
+//     const userId = req.user._id; // Get the logged-in user's ID
+//     const skip = req.query.skip;
+//     console.log(skip);
+//     // Find all jobs where the `postedBy` field is not equal to the logged-in user's ID
+//     const jobs = await JobModel.find(
+//       {
+//         deadline: false,
+//         postedBy: { $ne: userId }, // Exclude jobs posted by the current user
+//       },
+//       { skip, limit: 5 }
+//     ).sort({ createdAt: -1 });
+
+//     res.status(200).json({
+//       success: true,
+//       jobs,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch jobs",
+//       error: error.message,
+//     });
+//   }
+// };
+
+// export const getAllJob = async (req, res, next) => {
+//   try {
+//     const { page, limit } = req.query; // Default to page 1 and limit 7
+//     const skip = (page - 1) * limit;
+
+//     const jobs = await JobModel.find({
+//       deadline: false,
+//       postedBy: { $ne: req.user._id }, // Exclude jobs posted by current user
+//     })
+//       .skip(skip)
+//       .limit(limit)
+//       .sort({ createdAt: -1 });
+
+//     const totalJobs = await JobModel.countDocuments({
+//       deadline: false,
+//       postedBy: { $ne: req.user._id },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       jobs,
+//       totalJobs,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch jobs",
+//       error: error.message,
+//     });
+//   }
+// };
+
+export const getAllJob = async (req, res) => {
+  const { page = 1, limit = 7 } = req.query;
+  const skip = (page - 1) * limit;
+
   try {
-    const userId = req.user._id; // Get the logged-in user's ID
+    const jobs = await JobModel.find()
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 }); // Ensure proper sorting
 
-    // Find all jobs where the `postedBy` field is not equal to the logged-in user's ID
-    const jobs = await JobModel.find({
-      deadline: false,
-      postedBy: { $ne: userId }, // Exclude jobs posted by the current user
-    }).sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      jobs,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch jobs",
-      error: error.message,
-    });
+    const totalJobs = await JobModel.countDocuments();
+    res.status(200).json({ jobs, totalJobs });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 

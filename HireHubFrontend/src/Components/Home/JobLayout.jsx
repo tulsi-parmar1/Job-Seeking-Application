@@ -6,29 +6,40 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { FaRegBookmark } from "react-icons/fa";
 import moment from "moment";
-import { CiHeart } from "react-icons/ci";
+import Loader from "../Layout/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { userAction } from "../../Slices/userSlice";
-import { FcLike } from "react-icons/fc";
+
 import { MdDelete } from "react-icons/md";
-import { useGSAP } from "@gsap/react";
+
 import { FaEdit } from "react-icons/fa";
 
 import { FaBookmark } from "react-icons/fa6";
-import gsap from "gsap";
+
 const JobLayout = ({
   jobs,
   setJobs,
-  homepage,
+  setPage,
   similar,
   onUnsaveJob,
   isProfileView,
 }) => {
-  const jobRef = useRef();
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+    const lastJob = document.querySelector(".jobss:last-child");
+    if (lastJob) observer.observe(lastJob);
 
-  [];
+    return () => {
+      if (lastJob) observer.unobserve(lastJob);
+    };
+  }, [jobs.length]); // Only re-run when jobs length changes
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [saved, setSaved] = useState([]);
@@ -92,17 +103,15 @@ const JobLayout = ({
       toast.error(error);
     }
   }, []);
+
   return (
     <>
       <div className={style.container}>
-        <div
-          className={`${style.jobcontainer} ${similar && style.similar}`}
-          ref={jobRef}
-        >
+        <div className={`${style.jobcontainer} ${similar && style.similar}`}>
           {jobs.map((job) => {
             return (
               <>
-                <div className={style.job}>
+                <div className={`${style.job} jobss`}>
                   {/* first */}
                   <div
                     style={{
